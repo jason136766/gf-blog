@@ -1,0 +1,31 @@
+# HTTP Server
+[server]
+	Address     = ":8199"
+	ServerRoot  = "public"
+	ServerAgent = "gf-app"
+	LogPath     = "log/server"
+    Debug       = true
+    AppKey      = "2Kfew5YMJfiepXbAaRi2NuI4MK7kUyQ6"
+    JwtSecret   = "jgjxcX8HgY12L06ZrYMGxxYV64InQ2JUdYnweYXp8D9JjcJlOSS7upCLZQ5UfLtY"
+
+# Logger.
+[logger]
+    Path        = "log/gf-app"
+    Level       = "all"
+    Stdout      = true
+
+# Template.
+[viewer]
+    Path        = "template"
+    DefaultFile = "index.html"
+    Delimiters  =  ["{{", "}}"]
+
+# Database.
+[database]
+    link  = "mysql:root:@tcp(127.0.0.1:3306)/blog"
+    debug = true
+    # Database logger.
+    [database.logger]
+        Path   = "log/sql"
+        Level  = "all"
+        Stdout = true
