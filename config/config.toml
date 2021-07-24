@@ -2,7 +2,7 @@
 [server]
 	Address     = ":8199"
 	ServerRoot  = "public"
-	ServerAgent = "gf-app"
+	ServerAgent = "blog"
 	LogPath     = "log/server"
     Debug       = true
     AppKey      = "2Kfew5YMJfiepXbAaRi2NuI4MK7kUyQ6"
@@ -10,8 +10,8 @@
 
 # Logger.
 [logger]
-    Path        = "log/gf-app"
-    Level       = "all"
+    Path        = "log/blog"
+    Level       = "warn"
     Stdout      = true
 
 # Template.
@@ -27,5 +27,5 @@
     # Database logger.
     [database.logger]
         Path   = "log/sql"
-        Level  = "all"
+        Level  = "warn"
         Stdout = true

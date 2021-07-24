@@ -1,11 +1,14 @@
 package service
 
 import (
+	"context"
 	"encoding/hex"
 	"errors"
 	"my-blog/app/admin/define"
 	"my-blog/app/dao"
 	"my-blog/library/jwt"
+
+	"github.com/gogf/gf/i18n/gi18n"
 
 	"github.com/gogf/gf/crypto/gaes"
 
@@ -13,14 +16,14 @@ import (
 )
 
 var appKey = g.Cfg().GetBytes("server.AppKey")
+var model = dao.Admin.Table
 
 func Register(input *define.AdminInput) (string, error) {
 	admin, err := dao.Admin.One("username = ?", input.Username)
 	if err != nil {
 		return "", err
-	} else if admin != nil {
-		err = errors.New("管理员已存在")
-		return "", err
+	} else if !admin.IsEmpty() {
+		return "", errors.New(gi18n.Tf(context.TODO(), "UserExists", admin["username"]))
 	}
 
 	password, err := gaes.Encrypt([]byte(input.Password), appKey)
@@ -33,30 +36,26 @@ func Register(input *define.AdminInput) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	nums, err := result.RowsAffected()
-	if err != nil {
-		err = errors.New("数据库操作异常")
-	} else if nums > 0 {
+	row, err := result.RowsAffected()
+	if row > 0 {
 		adminId, _ := result.LastInsertId()
-		token, err := jwt.TokenGenerator(adminId)
+		token, err := jwt.TokenGenerator(model, adminId)
 		if err != nil {
-			err = errors.New("token 生成失败")
-			return "", err
+			return "", errors.New(gi18n.T(context.TODO(), "TokenGenerationFailed"))
 		}
 
 		return token, nil
+	} else {
+		return "", errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
-
-	return "", err
 }
 
 func Login(input *define.AdminInput) (string, error) {
 	admin, err := dao.Admin.One("username = ?", input.Username)
 	if err != nil {
 		return "", err
-	} else if admin == nil {
-		err = errors.New("用户名或密码错误")
-		return "", err
+	} else if admin.IsEmpty() {
+		return "", errors.New(gi18n.T(context.TODO(), "UsernameOrPasswordError"))
 	}
 
 	decoded, err := hex.DecodeString(admin["password"].String())
@@ -69,14 +68,12 @@ func Login(input *define.AdminInput) (string, error) {
 	}
 
 	if string(adminPassword) != input.Password {
-		err = errors.New("用户名或密码错误")
-		return "", err
+		return "", errors.New(gi18n.T(context.TODO(), "UsernameOrPasswordError"))
 	}
 
-	token, err := jwt.TokenGenerator(admin["id"].Int64())
+	token, err := jwt.TokenGenerator(model, admin["id"].Int64())
 	if err != nil {
-		err = errors.New("token 生成失败")
-		return "", err
+		return "", errors.New(gi18n.T(context.TODO(), "TokenGenerationFailed"))
 	}
 
 	return token, nil

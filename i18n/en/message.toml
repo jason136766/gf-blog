@@ -1,0 +1,5 @@
+UsernameOrPasswordError = "Incorrect user name or password."
+TokenGenerationFailed = "Token generation failed."
+DatabaseError = "Database error."
+UserExists = "The %s already exists."
+TokenInvalid = "The token is invalid."
