@@ -2,20 +2,16 @@ package service
 
 import (
 	"context"
-	"encoding/hex"
 	"errors"
 	"my-blog/app/admin/define"
 	"my-blog/app/dao"
 	"my-blog/library/jwt"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/gogf/gf/i18n/gi18n"
-
-	"github.com/gogf/gf/crypto/gaes"
-
-	"github.com/gogf/gf/frame/g"
 )
 
-var appKey = g.Cfg().GetBytes("server.AppKey")
 var model = dao.Admin.Table
 
 func Register(input *define.AdminInput) (string, error) {
@@ -26,16 +22,17 @@ func Register(input *define.AdminInput) (string, error) {
 		return "", errors.New(gi18n.Tf(context.TODO(), "UserExists", admin["username"]))
 	}
 
-	password, err := gaes.Encrypt([]byte(input.Password), appKey)
+	hashed, err := bcrypt.GenerateFromPassword([]byte(input.Password), 12)
 	if err != nil {
 		return "", err
 	}
-	input.Password = hex.EncodeToString(password)
 
+	input.Password = string(hashed)
 	result, err := dao.Admin.Insert(input)
 	if err != nil {
 		return "", err
 	}
+
 	row, err := result.RowsAffected()
 	if row > 0 {
 		adminId, _ := result.LastInsertId()
@@ -58,16 +55,8 @@ func Login(input *define.AdminInput) (string, error) {
 		return "", errors.New(gi18n.T(context.TODO(), "UsernameOrPasswordError"))
 	}
 
-	decoded, err := hex.DecodeString(admin["password"].String())
+	err = bcrypt.CompareHashAndPassword(admin["password"].Bytes(), []byte(input.Password))
 	if err != nil {
-		return "", err
-	}
-	adminPassword, err := gaes.Decrypt(decoded, appKey)
-	if err != nil {
-		return "", err
-	}
-
-	if string(adminPassword) != input.Password {
 		return "", errors.New(gi18n.T(context.TODO(), "UsernameOrPasswordError"))
 	}
 
