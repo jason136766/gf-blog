@@ -4,16 +4,17 @@
 	ServerRoot  = "public"
 	ServerAgent = "blog"
 	LogPath     = "log/server"
+    LogStdout   = false
     Debug       = true
     AppKey      = "2Kfew5YMJfiepXbAaRi2NuI4MK7kUyQ6"
     JwtSecret   = "jgjxcX8HgY12L06ZrYMGxxYV64InQ2JUdYnweYXp8D9JjcJlOSS7upCLZQ5UfLtY"
+
 
 # Logger.
 [logger]
     Path        = "log/blog"
     Level       = "warn"
     Stdout      = true
-
 # Template.
 [viewer]
     Path        = "template"
@@ -27,5 +28,5 @@
     # Database logger.
     [database.logger]
         Path   = "log/sql"
-        Level  = "warn"
+        Level  = "debug"
         Stdout = true

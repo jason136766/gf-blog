@@ -12,9 +12,10 @@ func init() {
 	// 定义客户端接受 json 格式
 	s.Use(middleware.AcceptHeader)
 
+	group := s.Group("/api")
 	// 后台路由
-	adminRoutes(s)
+	adminRoutes(group)
 
 	// 前台路由
-	v1Routes(s)
+	v1Routes(group)
 }

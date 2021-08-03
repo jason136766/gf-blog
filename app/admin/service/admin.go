@@ -19,7 +19,7 @@ func Register(input *define.AdminInput) (string, error) {
 	if err != nil {
 		return "", err
 	} else if !admin.IsEmpty() {
-		return "", errors.New(gi18n.Tf(context.TODO(), "UserExists", admin["username"]))
+		return "", errors.New(gi18n.Tf(context.TODO(), "Exists", admin["username"]))
 	}
 
 	hashed, err := bcrypt.GenerateFromPassword([]byte(input.Password), 12)

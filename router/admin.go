@@ -7,11 +7,15 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-func adminRoutes(s *ghttp.Server) {
-	s.Group("admin", func(group *ghttp.RouterGroup) {
+func adminRoutes(g *ghttp.RouterGroup) {
+	g.Group("/admin", func(group *ghttp.RouterGroup) {
 		group.POST("register", api.Admin.Register)
 		group.POST("login", api.Admin.Login)
 		group.Middleware(middleware.Authenticate)
 		group.POST("categories", api.Category.Store)
+		group.GET("categories", api.Category.Index)
+		group.DELETE("categories/{id}", api.Category.Delete)
+		group.PATCH("categories", api.Category.Update)
+
 	})
 }

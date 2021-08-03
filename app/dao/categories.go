@@ -15,12 +15,12 @@ type categoriesDao struct {
 }
 
 var (
-	// Categories is globally public accessible object for table categories operations.
-	Categories categoriesDao
+	// Category is globally public accessible object for table categories operations.
+	Category categoriesDao
 )
 
 func init() {
-	Categories = categoriesDao{
+	Category = categoriesDao{
 		internal.NewCategoriesDao(),
 	}
 }
