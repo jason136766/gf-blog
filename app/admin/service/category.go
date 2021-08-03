@@ -5,6 +5,7 @@ import (
 	"errors"
 	"my-blog/app/admin/define"
 	"my-blog/app/dao"
+	"strings"
 	"time"
 
 	"github.com/gogf/gf/frame/g"
@@ -74,6 +75,9 @@ func (c *categoryService) Update(input *define.CategoryUpdate) error {
 		"sort":          input.Sort,
 	})
 	if err != nil {
+		if num := strings.Index(err.Error(), "categories_category_name_unique"); num != 0 {
+			return errors.New(gi18n.Tf(context.TODO(), "Exists", input.CategoryName))
+		}
 		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
 	return nil
