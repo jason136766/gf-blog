@@ -16,6 +16,9 @@ func adminRoutes(g *ghttp.RouterGroup) {
 		group.GET("categories", api.Category.Index)
 		group.DELETE("categories/{id}", api.Category.Delete)
 		group.PATCH("categories", api.Category.Update)
-
+		group.POST("articles", api.Article.Store)
+		group.GET("articles", api.Article.Index)
+		group.PATCH("articles", api.Article.Update)
+		group.DELETE("articles/{id}", api.Article.Delete)
 	})
 }

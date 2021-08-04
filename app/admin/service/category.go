@@ -70,7 +70,7 @@ func (c *categoryService) Delete(ID uint64) error {
 
 // Update 修改分类
 func (c *categoryService) Update(input *define.CategoryUpdate) error {
-	_, err := dao.Category.Where("id = ?", input.ID).Update(g.Map{
+	_, err := dao.Category.Where("id", input.ID).Update(g.Map{
 		"category_name": input.CategoryName,
 		"sort":          input.Sort,
 	})

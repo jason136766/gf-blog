@@ -15,12 +15,12 @@ type articlesDao struct {
 }
 
 var (
-	// Articles is globally public accessible object for table articles operations.
-	Articles articlesDao
+	// Article is globally public accessible object for table articles operations.
+	Article articlesDao
 )
 
 func init() {
-	Articles = articlesDao{
+	Article = articlesDao{
 		internal.NewArticlesDao(),
 	}
 }

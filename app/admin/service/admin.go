@@ -15,7 +15,7 @@ import (
 var model = dao.Admin.Table
 
 func Register(input *define.AdminInput) (string, error) {
-	admin, err := dao.Admin.One("username = ?", input.Username)
+	admin, err := dao.Admin.One("username", input.Username)
 	if err != nil {
 		return "", err
 	} else if !admin.IsEmpty() {
@@ -48,7 +48,7 @@ func Register(input *define.AdminInput) (string, error) {
 }
 
 func Login(input *define.AdminInput) (string, error) {
-	admin, err := dao.Admin.One("username = ?", input.Username)
+	admin, err := dao.Admin.One("username", input.Username)
 	if err != nil {
 		return "", err
 	} else if admin.IsEmpty() {

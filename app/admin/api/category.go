@@ -41,13 +41,13 @@ func (c *categoryApi) Store(r *ghttp.Request) {
 		})
 	}
 
-	r.Response.WriteJsonExit(g.Map{"msg": "创建成功"})
+	r.Response.WriteJsonExit(g.Map{"msg": "分类创建成功"})
 }
 
 func (c *categoryApi) Delete(r *ghttp.Request) {
 	ID := r.Get("id")
 	if err := gvalid.CheckValue(context.TODO(), ID, "integer", nil); err != nil {
-		r.Response.WriteStatusExit(http.StatusInternalServerError, g.Map{
+		r.Response.WriteStatusExit(http.StatusUnprocessableEntity, g.Map{
 			"msg": err.Error(),
 		})
 	}
@@ -72,8 +72,5 @@ func (c *categoryApi) Update(r *ghttp.Request) {
 		})
 	}
 
-	r.Response.WriteJsonExit(g.Map{
-		"msg": "修改成功",
-	})
-
+	r.Response.WriteJsonExit(g.Map{"msg": "修改成功"})
 }
