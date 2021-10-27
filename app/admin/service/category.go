@@ -22,8 +22,8 @@ var Category = new(categoryService)
 type categoryService struct{}
 
 // Store 创建分类
-func (c *categoryService) Store(input *define.CategoryStore) error {
-	result, err := dao.Category.Insert(input)
+func (c *categoryService) Store(ctx context.Context, input *define.CategoryStore) error {
+	result, err := dao.Category.Ctx(ctx).Insert(input)
 	if err != nil {
 		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
@@ -40,8 +40,8 @@ func (c *categoryService) Store(input *define.CategoryStore) error {
 }
 
 // Categories 分类列表
-func (c *categoryService) Categories() (gdb.Result, error) {
-	result, err := dao.Category.Cache(time.Hour).OrderDesc("sort").All()
+func (c *categoryService) Categories(ctx context.Context) (gdb.Result, error) {
+	result, err := dao.Category.Ctx(ctx).Cache(time.Hour).OrderDesc("sort").All()
 	if err != nil {
 		return nil, errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
@@ -50,8 +50,8 @@ func (c *categoryService) Categories() (gdb.Result, error) {
 }
 
 // Delete 删除分类
-func (c *categoryService) Delete(ID uint64) error {
-	result, err := dao.Category.Delete("id", ID)
+func (c *categoryService) Delete(ctx context.Context, ID uint64) error {
+	result, err := dao.Category.Ctx(ctx).Delete("id", ID)
 	if err != nil {
 		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
@@ -69,8 +69,8 @@ func (c *categoryService) Delete(ID uint64) error {
 }
 
 // Update 修改分类
-func (c *categoryService) Update(input *define.CategoryUpdate) error {
-	_, err := dao.Category.Where("id", input.ID).Update(g.Map{
+func (c *categoryService) Update(ctx context.Context, input *define.CategoryUpdate) error {
+	_, err := dao.Category.Ctx(ctx).Where("id", input.ID).Update(g.Map{
 		"category_name": input.CategoryName,
 		"sort":          input.Sort,
 	})

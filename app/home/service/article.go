@@ -3,38 +3,18 @@ package service
 import (
 	"context"
 	"errors"
-	"my-blog/app/admin/define"
 	"my-blog/app/dao"
+	"my-blog/app/home/define"
 	"my-blog/app/shared"
 
-	"github.com/gogf/gf/util/gconv"
+	"github.com/gogf/gf/database/gdb"
 
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/i18n/gi18n"
 )
 
 var Article = new(articleService)
 
 type articleService struct{}
-
-// Store 创建文章
-func (a *articleService) Store(ctx context.Context, input *define.ArticleStore) error {
-	result, err := dao.Article.Ctx(ctx).Insert(input)
-	if err != nil {
-		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
-	}
-
-	row, err := result.RowsAffected()
-	if err != nil {
-		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
-	}
-
-	if row == 0 {
-		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
-	}
-
-	return nil
-}
 
 // Index 文章列表
 func (a *articleService) Index(ctx context.Context, input *define.ArticleIndexReq) (*shared.PageRes, error) {
@@ -68,23 +48,33 @@ func (a *articleService) Index(ctx context.Context, input *define.ArticleIndexRe
 	return output, nil
 }
 
-// Update 修改文章
-func (a *articleService) Update(ctx context.Context, input *define.ArticleUpdate) error {
-	_, err := dao.Article.Ctx(ctx).Where("id", input.ID).Update(g.Map{
-		"title":   input.Title,
-		"content": input.Content,
-	})
+// Detail 文章详情
+func (a *articleService) Detail(ctx context.Context, ID uint64) (gdb.Record, error) {
+	m := dao.Article.Ctx(ctx)
+	record, err := m.FindOne(ID)
 
 	if err != nil {
-		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
+		return nil, errors.New(gi18n.T(ctx, "DatabaseError"))
 	}
 
-	return nil
+	prevID, err := m.Where("id <", ID).Value("id")
+	if err != nil {
+		return nil, errors.New(gi18n.T(ctx, "DatabaseError"))
+	}
+	nextID, err := m.Where("id >", ID).Value("id")
+	if err != nil {
+		return nil, errors.New(gi18n.T(ctx, "DatabaseError"))
+	}
+
+	record["prev_id"] = prevID
+	record["next_id"] = nextID
+
+	return record, nil
 }
 
-// Delete 删除文章
-func (a *articleService) Delete(ctx context.Context, ID uint64) error {
-	result, err := dao.Article.Ctx(ctx).Delete("id", ID)
+// Store 创建文章
+func (a *articleService) Store(ctx context.Context, input *define.ArticleStore) error {
+	result, err := dao.Article.Ctx(ctx).Insert(input)
 	if err != nil {
 		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
@@ -95,8 +85,7 @@ func (a *articleService) Delete(ctx context.Context, ID uint64) error {
 	}
 
 	if row == 0 {
-		s := "ID " + gconv.String(ID)
-		return errors.New(gi18n.Tf(context.TODO(), "NotExists", s))
+		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
 
 	return nil

@@ -21,7 +21,7 @@ func (a *adminApi) Register(r *ghttp.Request) {
 	// 解析请求参数
 	shared.SimplePares(r, &input)
 	// 调用注册逻辑
-	token, err := service.Register(input)
+	token, err := service.Admin.Register(r.Context(), input)
 	respondWithToken(r, token, err)
 }
 
@@ -30,7 +30,7 @@ func (a *adminApi) Login(r *ghttp.Request) {
 	// 解析请求参数
 	shared.SimplePares(r, &input)
 	// 调用登录逻辑
-	token, err := service.Login(input)
+	token, err := service.Admin.Login(r.Context(), input)
 	respondWithToken(r, token, err)
 }
 

@@ -23,7 +23,7 @@
 
 # Database.
 [database]
-    link  = "mysql:root:@tcp(127.0.0.1:3306)/blog"
+    link  = "mysql:root:jason0918@tcp(127.0.0.1:3306)/blog"
     debug = true
     # Database logger.
     [database.logger]

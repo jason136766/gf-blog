@@ -12,6 +12,9 @@ func init() {
 	// 定义客户端接受 json 格式
 	s.Use(middleware.AcceptHeader)
 
+	// 允许跨域请求
+	s.Use(middleware.CORS)
+
 	group := s.Group("/api")
 	// 后台路由
 	adminRoutes(group)

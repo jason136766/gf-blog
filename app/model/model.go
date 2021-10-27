@@ -10,10 +10,11 @@ import (
 
 // Categories is the golang structure for table categories.
 type Categories struct {
-	Id           uint        `orm:"id,primary"    json:"id"`           //
-	CategoryName string      `orm:"category_name" json:"categoryName"` // 类别名称
-	CreatedAt    *gtime.Time `orm:"created_at"    json:"createdAt"`    //
-	UpdatedAt    *gtime.Time `orm:"updated_at"    json:"updatedAt"`    //
+	Id           uint        `orm:"id,primary"           json:"id"`           //
+	CategoryName string      `orm:"category_name,unique" json:"categoryName"` // 类别名称
+	Sort         uint        `orm:"sort"                 json:"sort"`         // 排序
+	CreatedAt    *gtime.Time `orm:"created_at"           json:"createdAt"`    //
+	UpdatedAt    *gtime.Time `orm:"updated_at"           json:"updatedAt"`    //
 }
 
 // Articles is the golang structure for table articles.
@@ -28,6 +29,15 @@ type Articles struct {
 
 // Admins is the golang structure for table admins.
 type Admins struct {
+	Id        uint        `orm:"id,primary"      json:"id"`        //
+	Username  string      `orm:"username,unique" json:"username"`  // 用户名
+	Password  string      `orm:"password"        json:"password"`  // 密码
+	CreatedAt *gtime.Time `orm:"created_at"      json:"createdAt"` //
+	UpdatedAt *gtime.Time `orm:"updated_at"      json:"updatedAt"` //
+}
+
+// Users is the golang structure for table users.
+type Users struct {
 	Id        uint        `orm:"id,primary" json:"id"`        //
 	Username  string      `orm:"username"   json:"username"`  // 用户名
 	Password  string      `orm:"password"   json:"password"`  // 密码

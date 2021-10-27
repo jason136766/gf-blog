@@ -14,8 +14,12 @@ import (
 
 var model = dao.Admin.Table
 
-func Register(input *define.AdminInput) (string, error) {
-	admin, err := dao.Admin.One("username", input.Username)
+var Admin = new(adminService)
+
+type adminService struct{}
+
+func (a *adminService) Register(ctx context.Context, input *define.AdminInput) (string, error) {
+	admin, err := dao.Admin.Ctx(ctx).One("username", input.Username)
 	if err != nil {
 		return "", err
 	} else if !admin.IsEmpty() {
@@ -28,7 +32,7 @@ func Register(input *define.AdminInput) (string, error) {
 	}
 
 	input.Password = string(hashed)
-	result, err := dao.Admin.Insert(input)
+	result, err := dao.Admin.Ctx(ctx).Insert(input)
 	if err != nil {
 		return "", err
 	}
@@ -47,8 +51,8 @@ func Register(input *define.AdminInput) (string, error) {
 	}
 }
 
-func Login(input *define.AdminInput) (string, error) {
-	admin, err := dao.Admin.One("username", input.Username)
+func (a *adminService) Login(ctx context.Context, input *define.AdminInput) (string, error) {
+	admin, err := dao.Admin.Ctx(ctx).One("username", input.Username)
 	if err != nil {
 		return "", err
 	} else if admin.IsEmpty() {

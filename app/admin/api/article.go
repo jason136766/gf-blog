@@ -24,7 +24,7 @@ func (a *articleApi) Store(r *ghttp.Request) {
 
 	shared.SimplePares(r, &input)
 
-	err := service.Article.Store(input)
+	err := service.Article.Store(r.Context(), input)
 	if err != nil {
 		r.Response.WriteStatusExit(http.StatusInternalServerError, g.Map{"msg": err.Error()})
 	}
