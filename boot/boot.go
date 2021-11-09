@@ -1,9 +1,9 @@
 package boot
 
 import (
-	_ "my-blog/packed"
+	_ "gf-blog/packed"
 
-	_ "my-blog/library/validator"
+	_ "gf-blog/library/validator"
 )
 
 func init() {

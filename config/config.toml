@@ -28,5 +28,11 @@
     # Database logger.
     [database.logger]
         Path   = "log/sql"
-        Level  = "debug"
+        Level  = "warn"
         Stdout = true
+
+# gfcli.
+[gfcli]
+    [[gfcli.gen.dao]]
+        link   = "mysql:root:jason0918@tcp(127.0.0.1:3306)/blog"
+        tables = "admins,users,categories,tags,articles"

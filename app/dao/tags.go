@@ -8,21 +8,17 @@ import (
 	"gf-blog/app/dao/internal"
 )
 
-// articlesDao is the manager for logic model data accessing and custom defined data operations functions management.
+// tagsDao is the manager for logic model data accessing and custom defined data operations functions management.
 // You can define custom methods on it to extend its functionality as you wish.
-type articlesDao struct {
-	*internal.ArticlesDao
+type tagsDao struct {
+	*internal.TagsDao
 }
 
 var (
-	// Article is globally public accessible object for table articles operations.
-	Article articlesDao
-)
-
-func init() {
-	Article = articlesDao{
-		internal.NewArticlesDao(),
+	// Tag is globally public accessible object for table tags operations.
+	Tag = tagsDao{
+		internal.NewTagsDao(),
 	}
-}
+)
 
 // Fill with you ideas below.

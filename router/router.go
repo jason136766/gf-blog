@@ -1,7 +1,7 @@
 package router
 
 import (
-	"my-blog/app/middleware"
+	"gf-blog/app/middleware"
 
 	"github.com/gogf/gf/frame/g"
 )

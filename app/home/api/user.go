@@ -1,10 +1,10 @@
 package api
 
 import (
-	"my-blog/app/home/define"
-	"my-blog/app/home/service"
-	"my-blog/app/shared"
-	"my-blog/library/jwt"
+	"gf-blog/app/home/define"
+	"gf-blog/app/home/service"
+	"gf-blog/app/shared"
+	"gf-blog/library/jwt"
 	"net/http"
 
 	"github.com/gogf/gf/frame/g"
@@ -12,7 +12,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-var User = new(userApi)
+var User = userApi{}
 
 type userApi struct{}
 

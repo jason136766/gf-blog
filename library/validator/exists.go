@@ -3,7 +3,10 @@ package validator
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strings"
+
+	"github.com/gogf/gf/util/gconv"
 
 	"github.com/gogf/gf/frame/g"
 
@@ -24,10 +27,10 @@ func init() {
 
 // existsChecker 校验字段值是否存在
 func existsChecker(ctx context.Context, rule string, value interface{}, message string, data interface{}) error {
-	if value == nil {
+	if value == nil || value == "" {
 		return nil
 	}
-	val := value.(string)
+
 	var spliced []string
 	isExists := true
 
@@ -38,13 +41,13 @@ func existsChecker(ctx context.Context, rule string, value interface{}, message 
 		isExists = false
 	}
 
-	count, err := g.Model(spliced[0]).Count(spliced[1]+"= ?", val)
+	count, err := g.Model(spliced[0]).Count(spliced[1]+"= ?", value)
 	if err != nil {
 		return err
 	}
 
 	if (isExists && count == 0) || (!isExists && count != 0) {
-		msg := strings.Replace(message, ":value", val, -1)
+		msg := strings.Replace(message, ":value", fmt.Sprintf("%s %s", spliced[1], gconv.String(value)), -1)
 		return errors.New(msg)
 	}
 	return nil

@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	"my-blog/app/admin/define"
-	"my-blog/app/dao"
+	"gf-blog/app/admin/define"
+	"gf-blog/app/dao"
 	"strings"
 	"time"
 
@@ -17,7 +17,7 @@ import (
 	"github.com/gogf/gf/i18n/gi18n"
 )
 
-var Category = new(categoryService)
+var Category = categoryService{}
 
 type categoryService struct{}
 
@@ -41,7 +41,7 @@ func (c *categoryService) Store(ctx context.Context, input *define.CategoryStore
 
 // Categories 分类列表
 func (c *categoryService) Categories(ctx context.Context) (gdb.Result, error) {
-	result, err := dao.Category.Ctx(ctx).Cache(time.Hour).OrderDesc("sort").All()
+	result, err := dao.Category.Ctx(ctx).Cache(time.Minute * 5).OrderDesc("sort").All()
 	if err != nil {
 		return nil, errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}

@@ -20,7 +20,8 @@ type Categories struct {
 // Articles is the golang structure for table articles.
 type Articles struct {
 	Id         uint64      `orm:"id,primary"  json:"id"`         //
-	CategoryId uint        `orm:"category_id" json:"categoryId"` // 类别ID
+	CategoryId uint        `orm:"category_id" json:"categoryId"` // 分类id
+	TagId      uint        `orm:"tag_id"      json:"tagId"`      // 标签ID
 	Title      string      `orm:"title"       json:"title"`      // 标题
 	Content    string      `orm:"content"     json:"content"`    // 内容
 	CreatedAt  *gtime.Time `orm:"created_at"  json:"createdAt"`  //
@@ -41,6 +42,15 @@ type Users struct {
 	Id        uint        `orm:"id,primary" json:"id"`        //
 	Username  string      `orm:"username"   json:"username"`  // 用户名
 	Password  string      `orm:"password"   json:"password"`  // 密码
+	CreatedAt *gtime.Time `orm:"created_at" json:"createdAt"` //
+	UpdatedAt *gtime.Time `orm:"updated_at" json:"updatedAt"` //
+}
+
+// Tags is the golang structure for table tags.
+type Tags struct {
+	Id        uint64      `orm:"id,primary" json:"id"`        //
+	TagName   string      `orm:"tag_name"   json:"tagName"`   // 标签名称
+	Counter   int         `orm:"counter"    json:"counter"`   // 文章计数器
 	CreatedAt *gtime.Time `orm:"created_at" json:"createdAt"` //
 	UpdatedAt *gtime.Time `orm:"updated_at" json:"updatedAt"` //
 }

@@ -1,8 +1,8 @@
 package router
 
 import (
-	"my-blog/app/admin/api"
-	"my-blog/app/middleware"
+	"gf-blog/app/admin/api"
+	"gf-blog/app/middleware"
 
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -20,5 +20,6 @@ func adminRoutes(g *ghttp.RouterGroup) {
 		group.GET("articles", api.Article.Index)
 		group.PATCH("articles", api.Article.Update)
 		group.DELETE("articles/{id}", api.Article.Delete)
+		group.POST("tags", api.Tag.Store)
 	})
 }

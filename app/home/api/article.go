@@ -1,9 +1,9 @@
 package api
 
 import (
-	"my-blog/app/home/define"
-	"my-blog/app/home/service"
-	"my-blog/app/shared"
+	"gf-blog/app/home/define"
+	"gf-blog/app/home/service"
+	"gf-blog/app/shared"
 	"net/http"
 
 	"github.com/gogf/gf/util/gconv"
@@ -15,7 +15,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-var Article = new(articleApi)
+var Article = articleApi{}
 
 type articleApi struct{}
 
@@ -58,4 +58,19 @@ func (a *articleApi) Store(r *ghttp.Request) {
 	}
 
 	r.Response.WriteJsonExit(g.Map{"msg": "文章创建成功"})
+}
+
+func (a *articleApi) Update(r *ghttp.Request) {
+	var input *define.ArticleUpdate
+
+	shared.SimplePares(r, &input)
+
+	err := service.Article.Update(r.Context(), input)
+	if err != nil {
+		r.Response.WriteStatusExit(http.StatusInternalServerError, g.Map{
+			"msg": err.Error(),
+		})
+	}
+
+	r.Response.WriteJsonExit(g.Map{"msg": "修改成功"})
 }

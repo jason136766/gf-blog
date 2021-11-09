@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"my-blog/app"
+	"gf-blog/app"
 	"net/http"
 
 	"github.com/gogf/gf/frame/g"

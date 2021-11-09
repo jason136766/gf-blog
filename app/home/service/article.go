@@ -2,17 +2,22 @@ package service
 
 import (
 	"context"
+	"database/sql"
 	"errors"
-	"my-blog/app/dao"
-	"my-blog/app/home/define"
-	"my-blog/app/shared"
+	"fmt"
+	"gf-blog/app/dao"
+	"gf-blog/app/home/define"
+	"gf-blog/app/shared"
+	"math"
+
+	"github.com/gogf/gf/frame/g"
 
 	"github.com/gogf/gf/database/gdb"
 
 	"github.com/gogf/gf/i18n/gi18n"
 )
 
-var Article = new(articleService)
+var Article = articleService{}
 
 type articleService struct{}
 
@@ -22,6 +27,10 @@ func (a *articleService) Index(ctx context.Context, input *define.ArticleIndexRe
 
 	if input.CategoryID != 0 {
 		m = m.Where("category_id", input.CategoryID)
+	}
+
+	if input.TagId != 0 {
+		m = m.Where("tag_id", input.TagId)
 	}
 
 	if input.Title != "" {
@@ -74,19 +83,69 @@ func (a *articleService) Detail(ctx context.Context, ID uint64) (gdb.Record, err
 
 // Store 创建文章
 func (a *articleService) Store(ctx context.Context, input *define.ArticleStore) error {
-	result, err := dao.Article.Ctx(ctx).Insert(input)
-	if err != nil {
-		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
-	}
+	fmt.Printf("%+v", input)
+	err := g.DB().Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+		var (
+			result sql.Result
+			err    error
+		)
 
-	row, err := result.RowsAffected()
-	if err != nil {
-		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
-	}
+		input.ReadMinutes = a.getReadMinutes(input.Content)
+		result, err = dao.Article.Ctx(ctx).Insert(input)
+		if err != nil {
+			return err
+		}
 
-	if row == 0 {
+		row, err := result.RowsAffected()
+		if err != nil {
+			return err
+		}
+
+		if row == 0 {
+			return err
+		}
+
+		result, err = dao.Tag.Ctx(ctx).Where("id=?", input.TagId).Increment("counter", 1)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
 		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
 	}
 
 	return nil
+}
+
+// Update 修改文章
+func (a *articleService) Update(ctx context.Context, input *define.ArticleUpdate) error {
+
+	input.ReadMinutes = a.getReadMinutes(input.Content)
+
+	_, err := dao.Article.Ctx(ctx).Where("id", input.ID).Update(g.Map{
+		"category_id":  input.CategoryId,
+		"tag_id":       input.TagId,
+		"title":        input.Title,
+		"content":      input.Content,
+		"read_minutes": input.ReadMinutes,
+	})
+
+	if err != nil {
+		return errors.New(gi18n.T(context.TODO(), "DatabaseError"))
+	}
+
+	return nil
+}
+
+func (a *articleService) getReadMinutes(content string) int {
+	readTime := math.Round(float64(len(content) / 300))
+
+	if readTime > 1 {
+		return int(readTime)
+	}
+
+	return 1
 }

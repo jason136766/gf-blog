@@ -2,9 +2,9 @@ package api
 
 import (
 	"context"
-	"my-blog/app/admin/define"
-	"my-blog/app/admin/service"
-	"my-blog/app/shared"
+	"gf-blog/app/admin/define"
+	"gf-blog/app/admin/service"
+	"gf-blog/app/shared"
 	"net/http"
 
 	"github.com/gogf/gf/util/gconv"
@@ -15,7 +15,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-var Article = new(articleApi)
+var Article = articleApi{}
 
 type articleApi struct{}
 

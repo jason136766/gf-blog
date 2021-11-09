@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"my-blog/app/dao/internal"
+	"gf-blog/app/dao/internal"
 )
 
 // usersDao is the manager for logic model data accessing and custom defined data operations functions management.

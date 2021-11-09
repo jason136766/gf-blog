@@ -1,17 +1,17 @@
 package api
 
 import (
-	"my-blog/app/admin/define"
-	"my-blog/app/admin/service"
-	"my-blog/app/shared"
-	"my-blog/library/jwt"
+	"gf-blog/app/admin/define"
+	"gf-blog/app/admin/service"
+	"gf-blog/app/shared"
+	"gf-blog/library/jwt"
 	"net/http"
 
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
-var Admin = new(adminApi)
+var Admin = adminApi{}
 
 type adminApi struct{}
 

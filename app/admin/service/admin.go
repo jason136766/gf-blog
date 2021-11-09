@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"my-blog/app/admin/define"
-	"my-blog/app/dao"
-	"my-blog/library/jwt"
+	"gf-blog/app/admin/define"
+	"gf-blog/app/dao"
+	"gf-blog/library/jwt"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -14,7 +14,7 @@ import (
 
 var model = dao.Admin.Table
 
-var Admin = new(adminService)
+var Admin = adminService{}
 
 type adminService struct{}
 

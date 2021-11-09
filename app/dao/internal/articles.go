@@ -20,7 +20,8 @@ type ArticlesDao struct {
 // ArticlesColumns defines and stores column names for table articles.
 type ArticlesColumns struct {
 	Id         string //
-	CategoryId string // 类别ID
+	CategoryId string // 分类id
+	TagId      string // 标签ID
 	Title      string // 标题
 	Content    string // 内容
 	CreatedAt  string //
@@ -31,6 +32,7 @@ type ArticlesColumns struct {
 var articlesColumns = ArticlesColumns{
 	Id:         "id",
 	CategoryId: "category_id",
+	TagId:      "tag_id",
 	Title:      "title",
 	Content:    "content",
 	CreatedAt:  "created_at",

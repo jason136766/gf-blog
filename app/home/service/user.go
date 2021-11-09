@@ -3,15 +3,15 @@ package service
 import (
 	"context"
 	"errors"
-	"my-blog/app/dao"
-	"my-blog/app/home/define"
-	"my-blog/library/jwt"
+	"gf-blog/app/dao"
+	"gf-blog/app/home/define"
+	"gf-blog/library/jwt"
 
 	"github.com/gogf/gf/i18n/gi18n"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var User = new(userService)
+var User = userService{}
 var model = dao.User.Table
 
 type userService struct{}

@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"context"
-	"my-blog/library/auth"
-	"my-blog/library/jwt"
+	"gf-blog/library/auth"
+	"gf-blog/library/jwt"
 	"net/http"
 
 	"github.com/gogf/gf/i18n/gi18n"

@@ -1,8 +1,8 @@
 package router
 
 import (
-	"my-blog/app/home/api"
-	"my-blog/app/middleware"
+	"gf-blog/app/home/api"
+	"gf-blog/app/middleware"
 
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -13,7 +13,10 @@ func v1Routes(g *ghttp.RouterGroup) {
 		group.GET("articles", api.Article.Index)
 		group.GET("articles/{id}", api.Article.Detail)
 		group.POST("login", api.User.Login)
+		group.GET("tags", api.Tag.Index)
 		group.Middleware(middleware.Authenticate)
 		group.POST("articles", api.Article.Store)
+		group.PATCH("articles", api.Article.Update)
+
 	})
 }

@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"my-blog/app/admin/define"
-	"my-blog/app/dao"
-	"my-blog/app/shared"
+	"gf-blog/app/admin/define"
+	"gf-blog/app/dao"
+	"gf-blog/app/shared"
 
 	"github.com/gogf/gf/util/gconv"
 
@@ -13,7 +13,7 @@ import (
 	"github.com/gogf/gf/i18n/gi18n"
 )
 
-var Article = new(articleService)
+var Article = articleService{}
 
 type articleService struct{}
 

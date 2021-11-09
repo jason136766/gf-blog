@@ -1,14 +1,14 @@
 package api
 
 import (
-	"my-blog/app/home/service"
+	"gf-blog/app/home/service"
 	"net/http"
 
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
 
-var Category = new(categoryApi)
+var Category = categoryApi{}
 
 type categoryApi struct{}
 

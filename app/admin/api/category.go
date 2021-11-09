@@ -1,10 +1,9 @@
 package api
 
 import (
-	"context"
-	"my-blog/app/admin/define"
-	"my-blog/app/admin/service"
-	"my-blog/app/shared"
+	"gf-blog/app/admin/define"
+	"gf-blog/app/admin/service"
+	"gf-blog/app/shared"
 	"net/http"
 
 	"github.com/gogf/gf/util/gconv"
@@ -14,7 +13,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-var Category = new(categoryApi)
+var Category = categoryApi{}
 
 type categoryApi struct{}
 
@@ -34,8 +33,7 @@ func (c *categoryApi) Store(r *ghttp.Request) {
 	// 解析请求参数
 	shared.SimplePares(r, &input)
 	// 调用创建类别逻辑
-	err := service.Category.Store(r.Context(), input)
-	if err != nil {
+	if err := service.Category.Store(r.Context(), input); err != nil {
 		r.Response.WriteStatusExit(http.StatusBadRequest, g.Map{
 			"msg": err.Error(),
 		})
@@ -46,7 +44,7 @@ func (c *categoryApi) Store(r *ghttp.Request) {
 
 func (c *categoryApi) Delete(r *ghttp.Request) {
 	ID := r.Get("id")
-	if err := gvalid.CheckValue(context.TODO(), ID, "integer", nil); err != nil {
+	if err := gvalid.CheckValue(r.Context(), ID, "integer", nil); err != nil {
 		r.Response.WriteStatusExit(http.StatusUnprocessableEntity, g.Map{
 			"msg": err.Error(),
 		})

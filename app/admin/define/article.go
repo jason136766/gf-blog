@@ -1,11 +1,12 @@
 package define
 
 import (
-	"my-blog/app/shared"
+	"gf-blog/app/shared"
 )
 
 type ArticleStore struct {
 	CategoryId uint64 `p:"category_id" v:"required|integer|min:1|exists:categories,id"`
+	TagId      uint   `p:"tag_id" v:"required|integer|min:1|exists:tags,id"`
 	Title      string `p:"title" v:"required|length:3,200"`
 	Content    string `p:"content" v:"required"`
 }
