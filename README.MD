@@ -1,6 +1,6 @@
 # GF-Blog
 
-- 基于 GoFrame 1.6x 开发的博客
+- 后端基于 GoFrame 1.6x 开发的博客
 - 前端基于 vue3+vite+ts+element-plus
 
 ## 内置功能
