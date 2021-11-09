@@ -1,7 +1,7 @@
 # GF-Blog
 
 - 后端基于 GoFrame 1.6x 开发的博客
-- 前端基于 vue3+vite+ts+element-plus
+- 前端基于 vue3+vite+ts+element-plus，[点这里](https://github.com/jason136766/vue3-blog)
 
 ## 内置功能
 
